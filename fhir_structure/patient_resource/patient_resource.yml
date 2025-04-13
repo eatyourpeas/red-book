@@ -1,0 +1,42 @@
+resourceType: Patient
+# from Resource: id, meta, implicitRules, and language
+# from DomainResource: text, contained, extension, and modifierExtension
+identifier: # An identifier for this patient
+  - Identifier
+active: <boolean> # Whether this patient's record is in active use
+name: # A name associated with the patient
+  - HumanName
+telecom: # A contact detail for the individual
+  - ContactPoint
+gender: "<code>" # male | female | other | unknown
+birthDate: "<date>" # The date of birth for the individual
+# deceased[x]: Indicates if the individual is deceased or not. One of these 2:
+deceasedBoolean: <boolean>
+deceasedDateTime: "<dateTime>"
+address: # An address for the individual
+  - Address
+maritalStatus: { CodeableConcept } # Marital (civil) status of a patient
+# multipleBirth[x]: Whether patient is part of a multiple birth. One of these 2:
+multipleBirthBoolean: <boolean>
+multipleBirthInteger: <integer>
+photo: # Image of the patient
+  - Attachment
+contact: # A contact party (e.g. guardian, partner, friend) for the patient
+  - relationship: # The kind of relationship
+      - CodeableConcept
+    name: { HumanName } # I A name associated with the contact person
+    telecom: # I A contact detail for the person
+      - ContactPoint
+    address: { Address } # I Address for the contact person
+    gender: "<code>" # male | female | other | unknown
+    organization: { Reference(Organization) } # I Organization that is associated with the contact
+    period: { Period } # The period during which this contact person or organization is valid to be contacted relating to this patient
+communication: # A language which may be used to communicate with the patient about his or her health
+  - language: { CodeableConcept } # R!  The language which can be used to communicate with the patient about his or her health
+    preferred: <boolean> # Language preference indicator
+generalPractitioner: # Patient's nominated primary care provider
+  - Reference(Organization|Practitioner|PractitionerRole)
+managingOrganization: { Reference(Organization) } # Organization that is the custodian of the patient record
+link: # Link to a Patient or RelatedPerson resource that concerns the same actual individual
+  - other: { Reference(Patient|RelatedPerson) } # R!  The other patient or related person resource that the link refers to
+    type: "<code>" # R!  replaced-by | replaces | refer | seealso

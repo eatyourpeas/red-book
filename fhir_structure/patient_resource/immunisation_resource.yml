@@ -1,0 +1,52 @@
+resourceType: Immunization
+# from Resource: id, meta, implicitRules, and language
+# from DomainResource: text, contained, extension, and modifierExtension
+identifier: # Business identifier
+  - Identifier
+basedOn: # Authority that the immunization event is based on
+  - Reference(CarePlan|ImmunizationRecommendation|MedicationRequest|ServiceRequest)
+status: "<code>" # R!  completed | entered-in-error | not-done
+statusReason: { CodeableConcept } # Reason for current status
+vaccineCode: { CodeableConcept } # R!  Vaccine administered
+administeredProduct: { CodeableReference(Medication) } # Product that was administered
+manufacturer: { CodeableReference(Organization) } # Vaccine manufacturer
+lotNumber: "<string>" # Vaccine lot number
+expirationDate: "<date>" # Vaccine expiration date
+patient: { Reference(Patient) } # R!  Who was immunized
+encounter: { Reference(Encounter) } # Encounter immunization was part of
+supportingInformation: # Additional information in support of the immunization
+  - Reference(Any)
+# occurrence[x]: Vaccine administration date. One of these 2:
+occurrenceDateTime: "<dateTime>"
+occurrenceString: "<string>"
+primarySource: <boolean> # Indicates context the data was captured in
+informationSource: { CodeableReference(Organization|Patient|Practitioner|PractitionerRole|RelatedPerson) } # Indicates the source of a  reported record
+location: { Reference(Location) } # The service delivery location
+site: { CodeableConcept } # Body site vaccine  was administered
+route: { CodeableConcept } # How vaccine entered body
+doseQuantity: { Quantity(SimpleQuantity) } # Amount of vaccine administered
+performer: # Who performed event
+  - function: { CodeableConcept } # Type of performance
+    actor: { Reference(Organization|Patient|Practitioner|PractitionerRole|RelatedPerson) } # R!  Individual or organization who was performing
+note: # Additional immunization notes
+  - Annotation
+reason: # Why immunization occurred
+  - CodeableReference(Condition|DiagnosticReport|Observation)
+isSubpotent: <boolean> # Dose potency
+subpotentReason: # Reason for being subpotent
+  - CodeableConcept
+programEligibility: # Patient eligibility for a specific vaccination program
+  - program: { CodeableConcept } # R!  The program that eligibility is declared for
+    programStatus: { CodeableConcept } # R!  The patient's eligibility status for the program
+fundingSource: { CodeableConcept } # Funding source for the vaccine
+reaction: # Details of a reaction that follows immunization
+  - date: "<dateTime>" # When reaction started
+    manifestation: { CodeableReference(Observation) } # Additional information on reaction
+    reported: <boolean> # Indicates self-reported reaction
+protocolApplied: # Protocol followed by the provider
+  - series: "<string>" # Name of vaccine series
+    authority: { Reference(Organization) } # Who is responsible for publishing the recommendations
+    targetDisease: # Vaccine preventatable disease being targeted
+      - CodeableConcept
+    doseNumber: { CodeableConcept } # Dose number within series
+    seriesDoses: { CodeableConcept } # Recommended number of doses for immunity
